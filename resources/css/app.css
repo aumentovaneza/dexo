@@ -1,11 +1,25 @@
-@import 'tailwindcss';
+/* Import Tailwind CSS v4 */
+@import "tailwindcss";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* Extending Tailwind colors using @theme directive */
+@layer utilities {
+  @theme {
+    --color-primary: #00E0CA;
+    --color-secondary: #FFDD57;
+    --color-background: #111827;
+    --color-surface: #1F2937;
+    --color-text: #F9FAFB;
+    --color-text-muted: #9CA3AF;
+    --color-danger: #EF4444;
+    --color-success: #10B981;
+  }
 }
+
+/* Fallback classes in case theme variables don't work */
+.bg-primary-fallback { background-color: var(--color-primary); }
+.bg-secondary-fallback { background-color: var(--color-secondary); }
+.bg-background-fallback { background-color: var(--color-background); }
+.bg-surface-fallback { background-color: var(--color-surface); }
+.text-primary-fallback { color: var(--color-primary); }
+.text-text-fallback { color: var(--color-text); }
+.text-text-muted-fallback { color: var(--color-text-muted); }    
