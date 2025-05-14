@@ -7,7 +7,7 @@
     <title>{{ config('app.name', 'Dexo') }}</title>
     
     <!-- Vite Assets -->
-    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+    @vite(['resources/css/app.css', 'resources/js/guest.jsx'])
     
     <!-- Alpine.js (for dropdowns) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -45,5 +45,45 @@
             </div>
         </footer>
     </div>
+    
+    <!-- Root div for LoginPopup and RegisterPopup React components -->
+    <div id="guest-layout-root"></div>
+    
+    <!-- Script to handle login and register button clicks -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle login links
+            const loginLinks = document.querySelectorAll('a[href*="login"]');
+            loginLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Dispatch the openLogin event directly
+                    const openLoginEvent = new CustomEvent('openLogin');
+                    document.dispatchEvent(openLoginEvent);
+                    
+                    // Also try to use the global function if available
+                    if (window.openLoginPopup) {
+                        window.openLoginPopup();
+                    }
+                });
+            });
+            
+            // Handle register links
+            const registerLinks = document.querySelectorAll('a[href*="register"]');
+            registerLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Dispatch the openRegister event directly
+                    const openRegisterEvent = new CustomEvent('openRegister');
+                    document.dispatchEvent(openRegisterEvent);
+                    
+                    // Also try to use the global function if available
+                    if (window.openRegisterPopup) {
+                        window.openRegisterPopup();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html> 
