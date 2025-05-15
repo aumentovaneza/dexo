@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -108,13 +109,8 @@ class UserController extends Controller
                 'token_type' => 'Bearer'
             ]);
         } else {
-            // For web requests
-            return response()->json([
-                'success' => true,
-                'message' => 'User logged in successfully',
-                'data' => $user,
-                'redirect' => route('dashboard')
-            ]);
+            // For web requests - use Inertia redirect
+            return Inertia::location(route('dashboard'));
         }
     }
 
@@ -152,7 +148,7 @@ class UserController extends Controller
      * Update the user's profile information.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse|\Inertia\Response
      */
     public function updateProfile(Request $request)
     {
@@ -161,27 +157,11 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'current_password' => 'nullable|required_with:password|string',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        // Check current password if user is trying to change password
-        if ($request->filled('current_password')) {
-            if (!Hash::check($request->current_password, $user->password)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Current password is incorrect',
-                    'errors' => ['current_password' => ['The provided password does not match our records.']]
-                ], 422);
-            }
+            return back()->withErrors($validator)->withInput();
         }
 
         // Update user data
@@ -202,7 +182,7 @@ class UserController extends Controller
                 'data' => $user
             ]);
         } else {
-            return redirect()->route('profile')->with('success', 'Profile updated successfully');
+            return redirect()->route('profile')->with('message', 'Profile updated successfully');
         }
     }
 }

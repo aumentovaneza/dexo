@@ -16,6 +16,7 @@ class Deck extends Model
         'name',
         'format',
         'notes',
+        'share_token',
     ];
 
     /**

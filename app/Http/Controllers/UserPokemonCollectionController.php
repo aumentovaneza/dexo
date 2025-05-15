@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\PokemonCard;
 use App\Models\UserPokemonCollection;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class UserPokemonCollectionController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display the user's Pokemon card collection.
      */
@@ -19,7 +23,7 @@ class UserPokemonCollectionController extends Controller
             ->where('user_id', $user->id)
             ->paginate(24);
 
-        return view('pokemon.collection', [
+        return Inertia::render('Pokemon/Collection', [
             'collection' => $collection,
         ]);
     }
