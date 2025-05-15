@@ -14,9 +14,12 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "@heroicons/react": "^2.2.0",
+        "@inertiajs/react": "^2.0.9",
         "@tailwindcss/vite": "^4.1.6",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
-        "tailwindcss": "^4.1.6"
+        "tailwindcss": "^4.1.6",
+        "ziggy-js": "^2.5.2"
     }
 }
