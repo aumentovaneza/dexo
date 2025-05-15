@@ -14,9 +14,11 @@ class MetaDeck extends Model
         'name',
         'description',
         'format',
+        'source',
         'usage_rate',
         'win_rate',
         'key_cards',
+        'deck_data',
         'strategy',
         'thumbnail'
     ];
@@ -24,7 +26,8 @@ class MetaDeck extends Model
     protected $casts = [
         'usage_rate' => 'float',
         'win_rate' => 'float',
-        'key_cards' => 'array'
+        'key_cards' => 'array',
+        'deck_data' => 'array'
     ];
 
     /**

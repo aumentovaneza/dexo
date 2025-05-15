@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\UserPokemonCollectionController;
 use App\Http\Controllers\DeckController;
+use App\Http\Middleware\AdminMiddleware;
 use Inertia\Inertia;
 
 // Public routes
@@ -54,6 +55,40 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/decks/{deck}', [DeckController::class, 'destroy'])->name('decks.destroy');
         Route::post('/decks/{deck}/share', [DeckController::class, 'share'])->name('decks.share');
     });
+});
+
+// Admin Routes - Protected by AdminMiddleware
+Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+    // Admin Dashboard
+    Route::get('/dashboard', function () {
+        return Inertia::render('Admin/Dashboard');
+    })->name('dashboard');
+
+    // Users Management
+    Route::get('/users', function () {
+        $users = \App\Models\User::all();
+        return Inertia::render('Admin/Users', ['users' => $users]);
+    })->name('users');
+
+    // Analytics
+    Route::get('/analytics', function () {
+        return Inertia::render('Admin/Dashboard');
+    })->name('analytics');
+
+    // Content Management
+    Route::get('/content', function () {
+        return Inertia::render('Admin/Dashboard');
+    })->name('content');
+
+    // Collections Management
+    Route::get('/collections', function () {
+        return Inertia::render('Admin/Dashboard');
+    })->name('collections');
+
+    // Settings
+    Route::get('/settings', function () {
+        return Inertia::render('Admin/Dashboard');
+    })->name('settings');
 });
 
 // Shared Deck Route (Public)
