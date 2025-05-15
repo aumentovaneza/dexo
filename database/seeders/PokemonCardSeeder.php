@@ -68,8 +68,5 @@ class PokemonCardSeeder extends Seeder
         foreach ($pokemonCards as $card) {
             PokemonCard::create($card);
         }
-
-        // Create more random cards
-        PokemonCard::factory(20)->create();
     }
 }

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
+use Tighten\Ziggy\Ziggy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,5 +23,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+
+        // Share Ziggy routes with Inertia
+        Inertia::share([
+            'app' => [
+                'name' => config('app.name'),
+            ],
+            'ziggy' => fn() => [
+                ...(new Ziggy)->toArray(),
+                'location' => url()->current(),
+            ],
+        ]);
     }
 }

@@ -19,7 +19,7 @@ class DeckCardSeeder extends Seeder
 
         foreach ($decks as $deck) {
             // For each deck, add between 10-20 different cards
-            $numberOfCardTypes = rand(10, 20);
+            $numberOfCardTypes = rand(1, 5);
 
             // Get random cards
             $randomCards = $pokemonCards->random($numberOfCardTypes);
