@@ -22,6 +22,11 @@ export default function AdminLayout({ children, title }) {
         { name: "Dashboard", href: route("admin.dashboard"), icon: HomeIcon },
         { name: "Users", href: route("admin.users"), icon: UsersIcon },
         {
+            name: "Pokemon Cards",
+            href: route("admin.pokemon.cards"),
+            icon: CollectionIcon,
+        },
+        {
             name: "Analytics",
             href: route("admin.analytics"),
             icon: ChartBarIcon,
@@ -179,11 +184,13 @@ export default function AdminLayout({ children, title }) {
                                             as="button"
                                             className="block w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-surface"
                                         >
-                                            <ArrowRightEndOnRectangleIcon
-                                                className="mr-2 h-5 w-5"
-                                                aria-hidden="true"
-                                            />{" "}
-                                            Sign out
+                                            <div className="flex items-center">
+                                                <ArrowRightEndOnRectangleIcon
+                                                    className="mr-2 h-5 w-5"
+                                                    aria-hidden="true"
+                                                />{" "}
+                                                Sign out
+                                            </div>
                                         </Link>
                                     </div>
                                 </div>

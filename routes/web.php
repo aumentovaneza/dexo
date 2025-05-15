@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\UserPokemonCollectionController;
 use App\Http\Controllers\DeckController;
+use App\Http\Controllers\Admin\PokemonCardController;
 use App\Http\Middleware\AdminMiddleware;
 use Inertia\Inertia;
 
@@ -69,6 +70,16 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
         $users = \App\Models\User::all();
         return Inertia::render('Admin/Users', ['users' => $users]);
     })->name('users');
+
+    // Pokemon Card Management
+    Route::prefix('pokemon')->name('pokemon.')->group(function () {
+        Route::get('/cards', [PokemonCardController::class, 'index'])->name('cards');
+        Route::get('/cards/create', [PokemonCardController::class, 'create'])->name('cards.create');
+        Route::post('/cards', [PokemonCardController::class, 'store'])->name('cards.store');
+        Route::get('/cards/{pokemonCard}/edit', [PokemonCardController::class, 'edit'])->name('cards.edit');
+        Route::put('/cards/{pokemonCard}', [PokemonCardController::class, 'update'])->name('cards.update');
+        Route::delete('/cards/{pokemonCard}', [PokemonCardController::class, 'destroy'])->name('cards.destroy');
+    });
 
     // Analytics
     Route::get('/analytics', function () {
