@@ -12,61 +12,114 @@ class PokemonCardSeeder extends Seeder
      */
     public function run(): void
     {
-        $pokemonCards = [
-            [
-                'name' => 'Pikachu V',
-                'supertype' => 'Pokémon',
-                'subtype' => 'Basic',
-                'type' => 'Lightning',
-                'set' => 'Sword & Shield',
-                'rarity' => 'Ultra Rare',
-                'image_url' => 'https://images.pokemontcg.io/swsh4/44.png',
-                'is_legal' => true,
+        // Sample Charizard card from the documentation example
+        PokemonCard::create([
+            'tcg_id' => 'swsh4-25',
+            'name' => 'Charizard',
+            'supertype' => 'Pokémon',
+            'subtypes' => ['Stage 2'],
+            'hp' => '170',
+            'types' => ['Fire'],
+            'evolves_from' => 'Charmeleon',
+            'abilities' => [
+                [
+                    'name' => 'Battle Sense',
+                    'text' => 'Once during your turn, you may look at the top 3 cards of your deck and put 1 of them into your hand. Discard the other cards.',
+                    'type' => 'Ability'
+                ]
             ],
-            [
-                'name' => 'Charizard VMAX',
-                'supertype' => 'Pokémon',
-                'subtype' => 'VMAX',
-                'type' => 'Fire',
-                'set' => 'Darkness Ablaze',
-                'rarity' => 'Secret Rare',
-                'image_url' => 'https://images.pokemontcg.io/swsh3/20.png',
-                'is_legal' => true,
+            'attacks' => [
+                [
+                    'name' => 'Royal Blaze',
+                    'cost' => ['Fire', 'Fire'],
+                    'convertedEnergyCost' => 2,
+                    'damage' => '100+',
+                    'text' => 'This attack does 50 more damage for each Leon card in your discard pile.'
+                ]
             ],
-            [
-                'name' => 'Professor\'s Research',
-                'supertype' => 'Trainer',
-                'subtype' => 'Supporter',
-                'type' => null,
-                'set' => 'Sword & Shield',
-                'rarity' => 'Uncommon',
-                'image_url' => 'https://images.pokemontcg.io/swsh1/178.png',
-                'is_legal' => true,
+            'weaknesses' => [
+                [
+                    'type' => 'Water',
+                    'value' => '×2'
+                ]
             ],
-            [
-                'name' => 'Double Colorless Energy',
-                'supertype' => 'Energy',
-                'subtype' => 'Special',
-                'type' => 'Colorless',
-                'set' => 'XY',
-                'rarity' => 'Uncommon',
-                'image_url' => 'https://images.pokemontcg.io/xy/130.png',
-                'is_legal' => false,
+            'retreat_cost' => ['Colorless', 'Colorless', 'Colorless'],
+            'converted_retreat_cost' => 3,
+            'set' => 'Vivid Voltage',
+            'set_details' => [
+                'id' => 'swsh4',
+                'name' => 'Vivid Voltage',
+                'series' => 'Sword & Shield',
+                'printedTotal' => 185,
+                'total' => 203,
+                'legalities' => [
+                    'unlimited' => 'Legal',
+                    'standard' => 'Legal',
+                    'expanded' => 'Legal'
+                ],
+                'ptcgoCode' => 'VIV',
+                'releaseDate' => '2020/11/13',
+                'updatedAt' => '2020/11/13 16:20:00',
+                'images' => [
+                    'symbol' => 'https://images.pokemontcg.io/swsh4/symbol.png',
+                    'logo' => 'https://images.pokemontcg.io/swsh4/logo.png'
+                ]
             ],
-            [
-                'name' => 'Mewtwo EX',
-                'supertype' => 'Pokémon',
-                'subtype' => 'EX',
-                'type' => 'Psychic',
-                'set' => 'Next Destinies',
-                'rarity' => 'Ultra Rare',
-                'image_url' => 'https://images.pokemontcg.io/bw4/54.png',
-                'is_legal' => false,
+            'number' => '25',
+            'artist' => 'Ryuta Fuse',
+            'rarity' => 'Rare',
+            'flavor_text' => 'It spits fire that is hot enough to melt boulders. It may cause forest fires by blowing flames.',
+            'national_pokedex_numbers' => [6],
+            'legalities' => [
+                'unlimited' => 'Legal',
+                'standard' => 'Legal',
+                'expanded' => 'Legal'
             ],
-        ];
-
-        foreach ($pokemonCards as $card) {
-            PokemonCard::create($card);
-        }
+            'images' => [
+                'small' => 'https://images.pokemontcg.io/swsh4/25.png',
+                'large' => 'https://images.pokemontcg.io/swsh4/25_hires.png'
+            ],
+            'tcgplayer' => [
+                'url' => 'https://prices.pokemontcg.io/tcgplayer/swsh4-25',
+                'updatedAt' => '2021/08/04',
+                'prices' => [
+                    'normal' => [
+                        'low' => 1.73,
+                        'mid' => 3.54,
+                        'high' => 12.99,
+                        'market' => 2.82,
+                        'directLow' => 3.93
+                    ],
+                    'reverseHolofoil' => [
+                        'low' => 3,
+                        'mid' => 8.99,
+                        'high' => 100,
+                        'market' => 3.89,
+                        'directLow' => 4.46
+                    ]
+                ]
+            ],
+            'cardmarket' => [
+                'url' => 'https://prices.pokemontcg.io/cardmarket/swsh4-25',
+                'updatedAt' => '2021/08/04',
+                'prices' => [
+                    'averageSellPrice' => 9.38,
+                    'lowPrice' => 8.95,
+                    'trendPrice' => 10.29,
+                    'germanProLow' => null,
+                    'suggestedPrice' => null,
+                    'reverseHoloSell' => null,
+                    'reverseHoloLow' => null,
+                    'reverseHoloTrend' => null,
+                    'lowPriceExPlus' => 8.95,
+                    'avg1' => 9.95,
+                    'avg7' => 9.35,
+                    'avg30' => 11.31,
+                    'reverseHoloAvg1' => null,
+                    'reverseHoloAvg7' => null,
+                    'reverseHoloAvg30' => null
+                ]
+            ]
+        ]);
     }
 }

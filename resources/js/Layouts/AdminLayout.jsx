@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, usePage, router } from "@inertiajs/react";
 import {
     HomeIcon,
     UserGroupIcon as UsersIcon,
@@ -112,10 +112,11 @@ export default function AdminLayout({ children, title }) {
                                     <p className="text-base font-medium text-white">
                                         {auth.user.name}
                                     </p>
-                                    <Link
-                                        href="/logout"
-                                        method="post"
-                                        as="button"
+                                    <button
+                                        onClick={() =>
+                                            router.post(route("logout"))
+                                        }
+                                        type="button"
                                         className="block w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-surface"
                                     >
                                         <div className="flex items-center">
@@ -125,7 +126,7 @@ export default function AdminLayout({ children, title }) {
                                             />
                                             <span>Sign out</span>
                                         </div>
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -178,10 +179,11 @@ export default function AdminLayout({ children, title }) {
                                         <p className="text-sm font-medium text-white">
                                             {auth.user.name}
                                         </p>
-                                        <Link
-                                            href="/logout"
-                                            method="post"
-                                            as="button"
+                                        <button
+                                            onClick={() =>
+                                                router.post(route("logout"))
+                                            }
+                                            type="button"
                                             className="block w-full text-left px-4 py-2 text-sm text-text-muted hover:bg-surface"
                                         >
                                             <div className="flex items-center">
@@ -191,7 +193,7 @@ export default function AdminLayout({ children, title }) {
                                                 />{" "}
                                                 Sign out
                                             </div>
-                                        </Link>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

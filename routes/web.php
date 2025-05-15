@@ -55,6 +55,10 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/decks/{deck}', [DeckController::class, 'update'])->name('decks.update');
         Route::delete('/decks/{deck}', [DeckController::class, 'destroy'])->name('decks.destroy');
         Route::post('/decks/{deck}/share', [DeckController::class, 'share'])->name('decks.share');
+
+        // Pokemon Card Routes
+        Route::get('/cards', [PokemonCardController::class, 'index'])->name('cards');
+        Route::get('/cards/{pokemonCard}', [PokemonCardController::class, 'show'])->name('cards.show');
     });
 });
 
@@ -74,11 +78,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Pokemon Card Management
     Route::prefix('pokemon')->name('pokemon.')->group(function () {
         Route::get('/cards', [PokemonCardController::class, 'index'])->name('cards');
-        Route::get('/cards/create', [PokemonCardController::class, 'create'])->name('cards.create');
-        Route::post('/cards', [PokemonCardController::class, 'store'])->name('cards.store');
-        Route::get('/cards/{pokemonCard}/edit', [PokemonCardController::class, 'edit'])->name('cards.edit');
-        Route::put('/cards/{pokemonCard}', [PokemonCardController::class, 'update'])->name('cards.update');
-        Route::delete('/cards/{pokemonCard}', [PokemonCardController::class, 'destroy'])->name('cards.destroy');
+        Route::get('/cards/{pokemonCard}', [PokemonCardController::class, 'show'])->name('cards.show');
     });
 
     // Analytics

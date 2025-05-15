@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'pokemon_tcg' => [
+        'api_key' => env('POKEMON_TCG_API_KEY'),
+        'base_url' => env('POKEMON_TCG_API_URL', 'https://api.pokemontcg.io/v2'),
+    ],
+
 ];

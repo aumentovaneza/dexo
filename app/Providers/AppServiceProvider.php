@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 use Tighten\Ziggy\Ziggy;
+use Pokemon\Pokemon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,5 +35,8 @@ class AppServiceProvider extends ServiceProvider
                 'location' => url()->current(),
             ],
         ]);
+
+        Pokemon::ApiKey(config('services.pokemon_tcg_api.key'));
+        Pokemon::Options(['verify' => true]);
     }
 }
