@@ -23,5 +23,11 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
+
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 });
