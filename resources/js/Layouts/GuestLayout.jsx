@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link, usePage } from "@inertiajs/react";
 
 export default function GuestLayout({ children, title }) {
-    const { flash } = usePage().props;
+    const { props } = usePage();
+    const flash = props?.flash || {};
     const [showFlash, setShowFlash] = useState(false);
 
     // Show flash message if it exists
     useEffect(() => {
-        if (flash.message || flash.success || flash.error) {
+        if (flash?.message || flash?.success || flash?.error) {
             setShowFlash(true);
             const timer = setTimeout(() => {
                 setShowFlash(false);
@@ -17,10 +18,10 @@ export default function GuestLayout({ children, title }) {
         }
     }, [flash]);
 
-    const flashMessage = flash.message || flash.success || flash.error;
-    const flashType = flash.success
+    const flashMessage = flash?.message || flash?.success || flash?.error;
+    const flashType = flash?.success
         ? "success"
-        : flash.error
+        : flash?.error
         ? "error"
         : "info";
 

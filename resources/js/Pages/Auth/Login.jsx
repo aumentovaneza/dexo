@@ -1,22 +1,35 @@
-import React from "react";
-import { Head, useForm, Link } from "@inertiajs/react";
+import Checkbox from "@/Components/Checkbox";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
+import { Head, Link, useForm } from "@inertiajs/react";
 
-export default function Login() {
-    const { data, setData, post, processing, errors } = useForm({
+export default function Login({ status, canResetPassword }) {
+    const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
         remember: false,
     });
 
-    const handleSubmit = (e) => {
+    const submit = (e) => {
         e.preventDefault();
-        post("/login");
+
+        post(route("login"), {
+            onFinish: () => reset("password"),
+        });
     };
 
     return (
-        <GuestLayout title="Login">
-            <Head title="Login" />
+        <GuestLayout>
+            <Head title="Log in" />
+
+            {status && (
+                <div className="mb-4 text-sm font-medium text-success">
+                    {status}
+                </div>
+            )}
 
             <div className="py-12 flex flex-col justify-center items-center">
                 <div className="w-full max-w-md">
@@ -27,96 +40,95 @@ export default function Login() {
                         <p className="text-text-muted mt-2">Welcome back!</p>
                     </div>
 
-                    <div className="bg-surface p-8 rounded-lg shadow-lg">
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="bg-surface p-8 rounded-lg shadow-lg border border-gray-700">
+                        <form onSubmit={submit}>
                             <div>
-                                <label
+                                <InputLabel
                                     htmlFor="email"
-                                    className="block text-sm font-medium text-text-muted mb-1"
-                                >
-                                    Email
-                                </label>
-                                <input
+                                    value="Email"
+                                    className="text-text"
+                                />
+
+                                <TextInput
                                     id="email"
                                     type="email"
+                                    name="email"
                                     value={data.email}
+                                    className="mt-1 block w-full"
+                                    autoComplete="username"
+                                    isFocused={true}
                                     onChange={(e) =>
                                         setData("email", e.target.value)
                                     }
-                                    className="w-full px-3 py-2 rounded-md border border-surface bg-background text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    required
                                 />
-                                {errors.email && (
-                                    <p className="mt-1 text-sm text-danger">
-                                        {errors.email}
-                                    </p>
-                                )}
+
+                                <InputError
+                                    message={errors.email}
+                                    className="mt-2"
+                                />
                             </div>
 
-                            <div>
-                                <label
+                            <div className="mt-4">
+                                <InputLabel
                                     htmlFor="password"
-                                    className="block text-sm font-medium text-text-muted mb-1"
-                                >
-                                    Password
-                                </label>
-                                <input
+                                    value="Password"
+                                    className="text-text"
+                                />
+
+                                <TextInput
                                     id="password"
                                     type="password"
+                                    name="password"
                                     value={data.password}
+                                    className="mt-1 block w-full"
+                                    autoComplete="current-password"
                                     onChange={(e) =>
                                         setData("password", e.target.value)
                                     }
-                                    className="w-full px-3 py-2 rounded-md border border-surface bg-background text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    required
                                 />
-                                {errors.password && (
-                                    <p className="mt-1 text-sm text-danger">
-                                        {errors.password}
-                                    </p>
-                                )}
+
+                                <InputError
+                                    message={errors.password}
+                                    className="mt-2"
+                                />
                             </div>
 
-                            <div className="flex items-center">
-                                <input
-                                    id="remember"
-                                    type="checkbox"
-                                    checked={data.remember}
-                                    onChange={(e) =>
-                                        setData("remember", e.target.checked)
-                                    }
-                                    className="h-4 w-4 text-primary focus:ring-primary border-surface rounded bg-background"
-                                />
-                                <label
-                                    htmlFor="remember"
-                                    className="ml-2 block text-sm text-text-muted"
-                                >
-                                    Remember me
+                            <div className="mt-4 block">
+                                <label className="flex items-center">
+                                    <Checkbox
+                                        name="remember"
+                                        checked={data.remember}
+                                        onChange={(e) =>
+                                            setData(
+                                                "remember",
+                                                e.target.checked
+                                            )
+                                        }
+                                    />
+                                    <span className="ms-2 text-sm text-text">
+                                        Remember me
+                                    </span>
                                 </label>
                             </div>
 
-                            <div>
-                                <button
-                                    type="submit"
+                            <div className="mt-6 flex items-center justify-end">
+                                {canResetPassword && (
+                                    <Link
+                                        href={route("password.request")}
+                                        className="rounded-md text-sm text-primary underline hover:text-primary/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                                    >
+                                        Forgot your password?
+                                    </Link>
+                                )}
+
+                                <PrimaryButton
+                                    className="ms-4"
                                     disabled={processing}
-                                    className="w-full py-2 px-4 bg-primary text-background rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 disabled:opacity-50"
                                 >
-                                    {processing ? "Logging in..." : "Login"}
-                                </button>
+                                    Log in
+                                </PrimaryButton>
                             </div>
                         </form>
-                    </div>
-
-                    <div className="text-center mt-6">
-                        <p className="text-text-muted">
-                            Don't have an account?{" "}
-                            <Link
-                                href="/register"
-                                className="text-primary hover:underline"
-                            >
-                                Register
-                            </Link>
-                        </p>
                     </div>
                 </div>
             </div>

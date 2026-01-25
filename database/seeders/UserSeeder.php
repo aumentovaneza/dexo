@@ -13,14 +13,23 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create a demo user
+        // Create a demo user with 'user' role
         User::create([
             'name' => 'Demo User',
             'email' => 'demo@example.com',
             'password' => Hash::make('password'),
+            'role' => 'user',
         ]);
 
-        // Create 5 random users
+        // Create an admin user
+        User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+        ]);
+
+        // Create 5 random users (with default 'user' role)
         User::factory(5)->create();
     }
 }

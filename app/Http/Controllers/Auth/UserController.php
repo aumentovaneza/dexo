@@ -39,6 +39,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'user', // Default role is 'user'
         ]);
 
         // Automatic login after registration
@@ -109,8 +110,12 @@ class UserController extends Controller
                 'token_type' => 'Bearer'
             ]);
         } else {
-            // For web requests - use Inertia redirect
-            return Inertia::location(route('dashboard'));
+            // For web requests - redirect based on role
+            if ($user->isAdmin()) {
+                return Inertia::location(route('admin.dashboard'));
+            } else {
+                return Inertia::location(route('dashboard'));
+            }
         }
     }
 
@@ -118,7 +123,7 @@ class UserController extends Controller
      * Logout user (revoke the token).
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse|\Inertia\Response
      */
     public function logout(Request $request)
     {
@@ -136,11 +141,10 @@ class UserController extends Controller
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Successfully logged out',
-                'redirect' => route('login')
-            ]);
+            // Make sure to redirect to a route that accepts GET requests
+            return redirect()->route('login');
+            // Or just redirect to home
+            // return redirect('/');
         }
     }
 
