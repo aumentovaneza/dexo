@@ -1,0 +1,158 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dexo-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./storage:/var/www/html/storage
+      - /var/www/html/node_modules
+    networks:
+      - dexo-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - APP_ENV=${APP_ENV:-local}
+      - APP_DEBUG=${APP_DEBUG:-true}
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE:-dexo}
+      - DB_USERNAME=${DB_USERNAME:-dexo_user}
+      - DB_PASSWORD=${DB_PASSWORD:-dexo_password}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6380
+      - CACHE_STORE=redis
+      - SESSION_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: dexo-nginx
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8000}:80"
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/node_modules
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - dexo-network
+    depends_on:
+      - app
+
+  mysql:
+    image: mysql:8.0
+    container_name: dexo-mysql
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE:-dexo}
+      - MYSQL_USER=${DB_USERNAME:-dexo_user}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-dexo_password}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root_password}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - dexo-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-root_password}"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 30s
+
+  redis:
+    image: redis:7-alpine
+    container_name: dexo-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6380}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - dexo-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dexo-queue
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/node_modules
+    networks:
+      - dexo-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - APP_ENV=${APP_ENV:-local}
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE:-dexo}
+      - DB_USERNAME=${DB_USERNAME:-dexo_user}
+      - DB_PASSWORD=${DB_PASSWORD:-dexo_password}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6380
+      - QUEUE_CONNECTION=redis
+    command: php artisan queue:work --tries=3 --timeout=90
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dexo-scheduler
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - dexo-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - APP_ENV=${APP_ENV:-local}
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE:-dexo}
+      - DB_USERNAME=${DB_USERNAME:-dexo_user}
+      - DB_PASSWORD=${DB_PASSWORD:-dexo_password}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6380
+    command: >
+      sh -c "while true; do
+        php artisan schedule:run --verbose --no-interaction &
+        sleep 60
+      done"
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  dexo-network:
+    driver: bridge
