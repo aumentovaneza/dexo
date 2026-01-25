@@ -34,13 +34,30 @@ class PullPokemonTCGCards extends Command
      */
     public function handle()
     {
+        $this->info('Starting to fetch Pokemon TCG cards...');
+        
         $cards = $this->pokemonTCGApiService->getAllCards();
+        
+        if (empty($cards)) {
+            $this->error('No cards were fetched from the API.');
+            return 1;
+        }
+
+        $this->info('Fetched ' . count($cards) . ' cards. Storing in database...');
+        
+        $progressBar = $this->output->createProgressBar(count($cards));
+        $progressBar->start();
 
         foreach ($cards as $card) {
             $this->pokemonTCGApiService->storeCardInDatabase($card);
+            $progressBar->advance();
         }
 
+        $progressBar->finish();
+        $this->newLine();
         $this->info('All Pokemon TCG cards have been pulled and stored in the database.');
+        
+        return 0;
     }
     
 }

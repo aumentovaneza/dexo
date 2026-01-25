@@ -73,13 +73,6 @@ class User extends Authenticatable
         return $this->hasMany(Deck::class);
     }
 
-    /**
-     * Get the Beyblade combos for the user.
-     */
-    public function combos(): HasMany
-    {
-        return $this->hasMany(Combo::class);
-    }
 
     /**
      * Get the Pokémon cards collection for the user.
@@ -89,11 +82,4 @@ class User extends Authenticatable
         return $this->hasMany(UserPokemonCollection::class);
     }
 
-    /**
-     * Get the Beyblade parts collection for the user.
-     */
-    public function beybladeCollection(): HasMany
-    {
-        return $this->hasMany(UserBeybladeCollection::class);
-    }
 }

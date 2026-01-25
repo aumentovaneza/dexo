@@ -20,8 +20,8 @@ export default function Welcome({ auth }) {
                             </h1>
                             <p className="text-xl text-text-muted mb-8 max-w-lg">
                                 Dexo helps you manage your Pokémon card
-                                collection and Beyblade parts, build competitive
-                                decks and combos—all in one beautiful workspace.
+                                collection and build competitive
+                                decks—all in one beautiful workspace.
                             </p>
                             <div className="flex flex-wrap gap-4">
                                 {auth?.user ? (
@@ -112,33 +112,6 @@ export default function Welcome({ auth }) {
                             </p>
                         </div>
 
-                        {/* Feature 2 */}
-                        <div className="bg-surface p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                            <div className="bg-primary/10 p-3 rounded-full w-fit mb-4">
-                                <svg
-                                    className="w-6 h-6 text-primary"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                                    />
-                                </svg>
-                            </div>
-                            <h3 className="text-xl font-semibold text-text mb-2">
-                                Beyblade Parts Management
-                            </h3>
-                            <p className="text-text-muted">
-                                Manage your Beyblade layers, disks, and drivers
-                                in one place. Keep track of your collection and
-                                build optimized combos for competitive play.
-                            </p>
-                        </div>
 
                         {/* Feature 3 */}
                         <div className="bg-surface p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
@@ -196,33 +169,6 @@ export default function Welcome({ auth }) {
                             </p>
                         </div>
 
-                        {/* Feature 5 */}
-                        <div className="bg-surface p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                            <div className="bg-primary/10 p-3 rounded-full w-fit mb-4">
-                                <svg
-                                    className="w-6 h-6 text-primary"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                                    />
-                                </svg>
-                            </div>
-                            <h3 className="text-xl font-semibold text-text mb-2">
-                                Beyblade Combo Builder
-                            </h3>
-                            <p className="text-text-muted">
-                                Create and save competitive Beyblade combos.
-                                Experiment with different parts combinations to
-                                find your winning strategy.
-                            </p>
-                        </div>
 
                         {/* Feature 6 */}
                         <div className="bg-surface p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
@@ -307,43 +253,6 @@ export default function Welcome({ auth }) {
                             </div>
                         </div>
 
-                        {/* Testimonial 2 */}
-                        <div className="bg-background p-8 rounded-xl shadow-sm">
-                            <div className="flex items-center mb-4">
-                                <div className="text-primary">
-                                    {[...Array(5)].map((_, i) => (
-                                        <svg
-                                            key={i}
-                                            className="w-5 h-5 inline-block"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    ))}
-                                </div>
-                            </div>
-                            <blockquote className="text-text-muted mb-4">
-                                "As a Beyblade competitor, I needed a solution
-                                to track my parts and build winning
-                                combinations. Dexo delivered beyond my
-                                expectations."
-                            </blockquote>
-                            <div className="flex items-center">
-                                <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-primary font-semibold mr-3">
-                                    ML
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-text">
-                                        Michael Lee
-                                    </p>
-                                    <p className="text-sm text-text-muted">
-                                        Beyblade Enthusiast
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
 
                         {/* Testimonial 3 */}
                         <div className="bg-background p-8 rounded-xl shadow-sm">
@@ -422,8 +331,7 @@ export default function Welcome({ auth }) {
                                 <ul className="space-y-3 mb-8">
                                     {[
                                         "Track up to 500 Pokémon cards",
-                                        "Basic Beyblade parts tracking",
-                                        "Create up to 5 decks/combos",
+                                        "Create up to 5 decks",
                                         "View public meta trends",
                                         "Email support",
                                     ].map((feature, i) => (
@@ -483,7 +391,6 @@ export default function Welcome({ auth }) {
                                     {[
                                         "Unlimited card tracking",
                                         "Advanced deck building tools",
-                                        "Full Beyblade combo analysis",
                                         "Detailed meta statistics",
                                         "Priority support",
                                         "Export/import collections",

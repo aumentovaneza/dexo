@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\UserPokemonCollectionController;
 use App\Http\Controllers\DeckController;
+use App\Http\Controllers\CollectionStatisticsController;
+use App\Http\Controllers\PriceTrackingController;
+use App\Http\Controllers\TradingController;
 use App\Http\Controllers\Admin\PokemonCardController;
 use App\Http\Middleware\AdminMiddleware;
 use Inertia\Inertia;
@@ -59,6 +62,36 @@ Route::middleware(['auth'])->group(function () {
         // Pokemon Card Routes
         Route::get('/cards', [PokemonCardController::class, 'index'])->name('cards');
         Route::get('/cards/{pokemonCard}', [PokemonCardController::class, 'show'])->name('cards.show');
+        
+        // Collection Statistics Routes
+        Route::get('/statistics', [CollectionStatisticsController::class, 'index'])->name('statistics');
+        Route::get('/api/statistics', [CollectionStatisticsController::class, 'apiStats'])->name('api.statistics');
+        Route::get('/api/statistics/trends', [CollectionStatisticsController::class, 'apiTrends'])->name('api.statistics.trends');
+        
+        // Search API Routes
+        Route::get('/api/search', [PokemonCardController::class, 'search'])->name('api.search');
+        Route::get('/api/search/suggestions', [PokemonCardController::class, 'suggestions'])->name('api.search.suggestions');
+        Route::get('/api/search/filters', [PokemonCardController::class, 'filterOptions'])->name('api.search.filters');
+        
+        // Price Tracking Routes
+        Route::get('/prices', [PriceTrackingController::class, 'index'])->name('prices');
+        Route::get('/api/prices/card/{pokemonCard}', [PriceTrackingController::class, 'cardPrice'])->name('api.prices.card');
+        Route::get('/api/prices/alerts', [PriceTrackingController::class, 'alerts'])->name('api.prices.alerts');
+        Route::get('/api/prices/trends', [PriceTrackingController::class, 'marketTrends'])->name('api.prices.trends');
+        Route::get('/api/prices/history/{pokemonCard}', [PriceTrackingController::class, 'priceHistory'])->name('api.prices.history');
+        
+        // Trading Routes
+        Route::get('/trading', [TradingController::class, 'index'])->name('trading.dashboard');
+        Route::get('/trading/create', [TradingController::class, 'create'])->name('trading.create');
+        Route::post('/trading/create', [TradingController::class, 'store'])->name('trading.store');
+        Route::get('/trading/{trade}', [TradingController::class, 'show'])->name('trading.show');
+        Route::post('/trading/{trade}/accept', [TradingController::class, 'accept'])->name('trading.accept');
+        Route::post('/trading/{trade}/reject', [TradingController::class, 'reject'])->name('trading.reject');
+        Route::post('/trading/{trade}/cancel', [TradingController::class, 'cancel'])->name('trading.cancel');
+        Route::post('/trading/{trade}/complete', [TradingController::class, 'complete'])->name('trading.complete');
+        Route::get('/api/trading/shipping/{trade}', [TradingController::class, 'shippingOptions'])->name('api.trading.shipping');
+        Route::get('/api/trading/partners', [TradingController::class, 'tradingPartners'])->name('api.trading.partners');
+        Route::get('/api/trading/marketplace', [TradingController::class, 'marketplace'])->name('api.trading.marketplace');
     });
 });
 

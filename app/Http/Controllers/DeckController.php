@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Deck;
 use App\Models\DeckCard;
 use App\Models\PokemonCard;
+use App\Services\DeckValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -14,6 +15,13 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class DeckController extends Controller
 {
     use AuthorizesRequests;
+
+    protected $deckValidationService;
+
+    public function __construct(DeckValidationService $deckValidationService)
+    {
+        $this->deckValidationService = $deckValidationService;
+    }
 
     /**
      * Display a listing of the user's decks
@@ -78,8 +86,12 @@ class DeckController extends Controller
             ]);
         }
 
+        // Validate the deck
+        $validation = $this->deckValidationService->validateDeck($deck);
+        
         return redirect()->route('pokemon.decks.show', $deck->id)
-            ->with('success', 'Deck created successfully!');
+            ->with('success', 'Deck created successfully!')
+            ->with('validation', $validation);
     }
 
     /**
@@ -90,9 +102,15 @@ class DeckController extends Controller
         $this->authorize('view', $deck);
 
         $deck->load(['deckCards.pokemonCard']);
+        
+        // Get deck validation and analysis
+        $validation = $this->deckValidationService->validateDeck($deck);
+        $analysis = $this->deckValidationService->analyzeDeckType($deck);
 
         return Inertia::render('Pokemon/Decks/Show', [
             'deck' => $deck,
+            'validation' => $validation,
+            'analysis' => $analysis,
         ]);
     }
 

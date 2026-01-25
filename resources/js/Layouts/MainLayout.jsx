@@ -100,14 +100,36 @@ export default function MainLayout({ children }) {
                                 </Link>
 
                                 <Link
-                                    href="/beyblade/collection"
+                                    href="/pokemon/statistics"
                                     className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                                        usePage().url === "/beyblade/collection"
+                                        usePage().url === "/pokemon/statistics"
                                             ? "border-primary text-text"
                                             : "border-transparent text-text-muted hover:text-text hover:border-surface"
                                     }`}
                                 >
-                                    Beyblade Collection
+                                    Statistics
+                                </Link>
+
+                                <Link
+                                    href="/prices"
+                                    className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
+                                        usePage().url === "/prices"
+                                            ? "border-primary text-text"
+                                            : "border-transparent text-text-muted hover:text-text hover:border-surface"
+                                    }`}
+                                >
+                                    Prices
+                                </Link>
+
+                                <Link
+                                    href="/trading"
+                                    className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
+                                        usePage().url === "/trading"
+                                            ? "border-primary text-text"
+                                            : "border-transparent text-text-muted hover:text-text hover:border-surface"
+                                    }`}
+                                >
+                                    Trading
                                 </Link>
 
                                 <Link
@@ -262,14 +284,34 @@ export default function MainLayout({ children }) {
                             Pokémon Collection
                         </Link>
                         <Link
-                            href="/beyblade/collection"
+                            href="/pokemon/statistics"
                             className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-                                usePage().url === "/beyblade/collection"
+                                usePage().url === "/pokemon/statistics"
                                     ? "border-primary text-primary bg-primary/5"
                                     : "border-transparent text-text-muted hover:bg-surface hover:border-surface hover:text-text"
                             }`}
                         >
-                            Beyblade Collection
+                            Statistics
+                        </Link>
+                        <Link
+                            href="/prices"
+                            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+                                usePage().url === "/prices"
+                                    ? "border-primary text-primary bg-primary/5"
+                                    : "border-transparent text-text-muted hover:bg-surface hover:border-surface hover:text-text"
+                            }`}
+                        >
+                            Prices
+                        </Link>
+                        <Link
+                            href="/trading"
+                            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+                                usePage().url === "/trading"
+                                    ? "border-primary text-primary bg-primary/5"
+                                    : "border-transparent text-text-muted hover:bg-surface hover:border-surface hover:text-text"
+                            }`}
+                        >
+                            Trading
                         </Link>
                         <Link
                             href="/community"
