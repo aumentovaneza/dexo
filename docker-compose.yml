@@ -27,7 +27,7 @@ services:
       - DB_USERNAME=${DB_USERNAME:-dexo_user}
       - DB_PASSWORD=${DB_PASSWORD:-dexo_password}
       - REDIS_HOST=redis
-      - REDIS_PORT=6380
+      - REDIS_PORT=6379
       - CACHE_STORE=redis
       - SESSION_DRIVER=redis
       - QUEUE_CONNECTION=redis
@@ -111,7 +111,7 @@ services:
       - DB_USERNAME=${DB_USERNAME:-dexo_user}
       - DB_PASSWORD=${DB_PASSWORD:-dexo_password}
       - REDIS_HOST=redis
-      - REDIS_PORT=6380
+      - REDIS_PORT=6379
       - QUEUE_CONNECTION=redis
     command: php artisan queue:work --tries=3 --timeout=90
 
@@ -140,7 +140,7 @@ services:
       - DB_USERNAME=${DB_USERNAME:-dexo_user}
       - DB_PASSWORD=${DB_PASSWORD:-dexo_password}
       - REDIS_HOST=redis
-      - REDIS_PORT=6380
+      - REDIS_PORT=6379
     command: >
       sh -c "while true; do
         php artisan schedule:run --verbose --no-interaction &
